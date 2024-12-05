@@ -1,0 +1,477 @@
+CREATE database HOSPITAL_MANAGEMENT_SYSTEM;
+use HOSPITAL_MANAGEMENT_SYSTEM;
+
+CREATE TABLE Doctor (
+    DoctorID INT PRIMARY KEY AUTO_INCREMENT, -- Unique identifier for each doctor
+    Name VARCHAR(100) NOT NULL,              -- Doctor's name
+    Specialization VARCHAR(100) NOT NULL,    -- Area of expertise
+    Contact VARCHAR(15) UNIQUE NOT NULL,     -- Contact number (must be unique)
+    DepartmentID INT NOT NULL,               -- Department ID to link with Department table
+    Salary DECIMAL(10, 2) NOT NULL           -- Doctor's salary
+);
+
+INSERT INTO Doctor (Name, Specialization, Contact, DepartmentID, Salary)
+VALUES
+    ('Dr. John Smith', 'Cardiology', '9876543210', 1, 120000),
+    ('Dr. Lisa Ray', 'Neurology', '9876543211', 2, 135000),
+    ('Dr. Sarah Jones', 'Orthopedics', '9876543212', 3, 110000),
+    ('Dr. Mark Taylor', 'Pediatrics', '9876543213', 4, 95000),
+    ('Dr. Emily Davis', 'General Surgery', '9876543214', 5, 125000),
+    ('Dr. Olivia Johnson', 'Cardiology', '9876543215', 1, 115000),
+    ('Dr. Ethan Brown', 'Neurology', '9876543216', 2, 140000),
+    ('Dr. Mia Williams', 'Orthopedics', '9876543217', 3, 120000),
+    ('Dr. Noah Wilson', 'Pediatrics', '9876543218', 4, 98000),
+    ('Dr. Emma Martinez', 'General Surgery', '9876543219', 5, 130000),
+    ('Dr. Liam Anderson', 'Cardiology', '9876543220', 1, 125000),
+    ('Dr. Sophia Thomas', 'Neurology', '9876543221', 2, 138000),
+    ('Dr. James Moore', 'Orthopedics', '9876543222', 3, 115000),
+    ('Dr. Amelia Harris', 'Pediatrics', '9876543223', 4, 97000),
+    ('Dr. Lucas Clark', 'General Surgery', '9876543224', 5, 135000);
+    
+CREATE TABLE Patient (
+    PatientID INT PRIMARY KEY AUTO_INCREMENT,         -- Unique identifier for each patient
+    Name VARCHAR(100) NOT NULL,                       -- Patient's full name
+    Age INT NOT NULL,                                 -- Patient's age
+    Gender ENUM('Male', 'Female', 'Other') NOT NULL,  -- Patient's gender
+    Contact VARCHAR(15) UNIQUE NOT NULL,              -- Patient's contact number
+    Address VARCHAR(255),                             -- Patient's residential address
+    MedicalHistory TEXT,                              -- Medical history notes
+    DoctorID INT,                                     -- Foreign key to Doctor table
+    DepartmentID INT,                                 -- Foreign key to Department table
+    RegistrationDate DATE NOT NULL DEFAULT (CURDATE()), -- Date of registration
+    FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID) -- Linking to Doctor table
+    -- FOREIGN KEY (DepartmentID) REFERENCES Doctor(DepartmentID) -- Linking to Department
+);
+
+
+-- Step 2: Insert Data into the Patient Table (40 Records)
+INSERT INTO Patient (Name, Age, Gender, Contact, Address, MedicalHistory, DoctorID, DepartmentID)
+VALUES
+    -- First 20 Records
+    ('Alice Walker', 35, 'Female', '9988776655', '123 Main St, Cityville', 'Hypertension', 1, 1),
+    ('Bob Johnson', 42, 'Male', '9876543211', '45 Elm St, Townsville', 'Diabetes', 2, 2),
+    ('Charlie Brown', 28, 'Male', '8765432109', '67 Maple St, Villageton', 'Fracture in right arm', 3, 3),
+    ('Daisy Lewis', 18, 'Female', '7654321098', '12 Oak St, Hamletburg', 'Seasonal allergies', 4, 4),
+    ('Ethan Hall', 50, 'Male', '6543210987', '89 Pine St, Metropolis', 'Heart condition', 6, 1),
+    ('Fiona White', 24, 'Female', '5432109876', '21 Birch St, Urbantown', 'Migraine', 7, 2),
+    ('George Young', 65, 'Male', '4321098765', '34 Cedar St, Smalltown', 'Knee replacement surgery', 8, 3),
+    ('Hannah King', 30, 'Female', '3210987654', '56 Willow St, Boroughville', 'Chronic bronchitis', 9, 4),
+    ('Isaac Adams', 45, 'Male', '2109876543', '78 Spruce St, Capital City', 'Appendicitis', 10, 5),
+    ('Jenny Harper', 29, 'Female', '1098765432', '90 Ash St, Downtown', 'Gallbladder stones', 11, 5),
+    ('Sophia Turner', 37, 'Female', '9008765431', '11 Oakridge Ave, Citytown', 'Asthma', 3, 3),
+    ('Daniel Price', 41, 'Male', '8007654321', '21 Sun Blvd, Villageton', 'Arthritis', 1, 1),
+    ('Eleanor Ross', 25, 'Female', '7006543210', '15 Moon St, Urbantown', 'Anemia', 4, 4),
+    ('James Evans', 34, 'Male', '6005432109', '98 Park Lane, Townsville', 'Hypertension', 6, 1),
+    ('Mia Collins', 21, 'Female', '5004321098', '43 River Ave, Hamletburg', 'Thyroid disorder', 7, 2),
+    ('Nathaniel Gray', 29, 'Male', '4003210987', '12 Mountain Rd, Metropolis', 'Fractured ankle', 8, 3),
+    ('Amelia Foster', 53, 'Female', '3002109876', '25 Valley Dr, Boroughville', 'Migraine', 9, 4),
+    ('Liam Morgan', 38, 'Male', '2001098765', '14 Lakeview Rd, Capital City', 'Sinusitis', 10, 5),
+    ('Emma Lee', 46, 'Female', '1000987654', '18 Broadway St, Downtown', 'Gallstones', 11, 5),
+    ('Noah King', 40, 'Male', '9998877665', '22 Wind St, Hamletburg', 'Liver disease', 12, 5),
+
+    -- Additional 20 Records
+    ('Isabella Scott', 30, 'Female', '9987765544', '34 Horizon Rd, Smalltown', 'Anemia', 1, 1),
+    ('Lucas Martin', 52, 'Male', '9876654433', '78 Sunset Blvd, Metropolis', 'Heart condition', 2, 2),
+    ('Charlotte Young', 27, 'Female', '8765543322', '56 Clover Ave, Villageton', 'Pneumonia', 3, 3),
+    ('Olivia Wright', 44, 'Female', '7654432211', '67 Rosewood St, Urbantown', 'Chronic back pain', 4, 4),
+    ('Benjamin Green', 33, 'Male', '6543321100', '45 Maple Rd, Boroughville', 'Asthma', 6, 1),
+    ('Evelyn Hill', 19, 'Female', '5432210099', '12 Willow Creek Rd, Capital City', 'Seasonal allergies', 7, 2),
+    ('Henry Adams', 48, 'Male', '4321100988', '21 Birchwood St, Hamletburg', 'Appendicitis', 8, 3),
+    ('Luna Carter', 35, 'Female', '3210098777', '11 Aspen Ln, Downtown', 'Chronic bronchitis', 9, 4),
+    ('Leo Brooks', 60, 'Male', '2100987666', '67 Oakwood Rd, Townsville', 'Knee pain', 10, 5),
+    ('Ava Rivera', 32, 'Female', '1099876555', '34 Sunset Blvd, Cityville', 'Gallstones', 11, 5),
+    ('Harper Bennett', 43, 'Female', '9008876543', '43 Pinecrest St, Hamletburg', 'Hypertension', 12, 5),
+    ('Sebastian Flores', 39, 'Male', '8007765432', '67 Ocean Rd, Villageton', 'Thyroid disorder', 1, 1),
+    ('Ella Diaz', 22, 'Female', '7006654321', '11 Sunshine Blvd, Metropolis', 'Anemia', 3, 3),
+    ('Michael Reed', 47, 'Male', '6005543210', '12 Cedarwood Rd, Smalltown', 'Migraine', 4, 4),
+    ('Sophia Bailey', 36, 'Female', '5004432109', '45 Windward Ln, Hamletburg', 'Heart condition', 6, 1),
+    ('Oliver Perry', 58, 'Male', '4003321098', '78 Rose Blvd, Urbantown', 'Asthma', 7, 2),
+    ('Chloe Rivera', 20, 'Female', '3002210987', '67 Moonrise Rd, Boroughville', 'Seasonal allergies', 8, 3),
+    ('Jack Coleman', 29, 'Male', '2001109876', '11 Valley Dr, Downtown', 'Chronic back pain', 9, 4),
+    ('Grace Henderson', 26, 'Female', '1000098765', '34 Ocean Breeze Ave, Capital City', 'Appendicitis', 10, 5),
+    ('Mason Campbell', 41, 'Male', '9999988776', '78 Riverwood Rd, Smalltown', 'Gallstones', 11, 5);
+    
+    select * from Patient
+    
+-- Step 1: Create the Appointment Table (if not already created)
+CREATE TABLE Appointment (
+    AppointmentID INT PRIMARY KEY AUTO_INCREMENT,
+    PatientID INT NOT NULL,
+    DoctorID INT NOT NULL,
+    DepartmentID INT NOT NULL,
+    AppointmentDate DATE NOT NULL,
+    AppointmentTime TIME NOT NULL,
+    Purpose VARCHAR(255),
+    Status ENUM('Scheduled', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
+    Notes TEXT,
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID)
+    -- FOREIGN KEY (DepartmentID) REFERENCES Doctor(DepartmentID)
+);
+
+-- Step 2: Randomly Insert Data for Appointments
+INSERT INTO Appointment (PatientID, DoctorID, DepartmentID, AppointmentDate, AppointmentTime, Purpose, Status, Notes)
+VALUES
+    (1, 1, 1, '2024-11-25', '10:00:00', 'Regular checkup', 'Scheduled', 'First visit, no previous history'),
+    (2, 2, 2, '2024-11-25', '11:30:00', 'Follow-up on diabetes', 'Scheduled', 'Bring blood sugar reports'),
+    (3, 3, 3, '2024-11-25', '14:00:00', 'Fracture consultation', 'Scheduled', 'Patient complains of persistent pain'),
+    (4, 4, 4, '2024-11-26', '09:00:00', 'Allergy symptoms', 'Scheduled', 'Check new allergy test results'),
+    (5, 6, 1, '2024-11-26', '10:30:00', 'Heart checkup', 'Scheduled', 'ECG report required'),
+    (6, 7, 2, '2024-11-26', '14:00:00', 'Migraine consultation', 'Scheduled', 'Bring medication list'),
+    (7, 8, 3, '2024-11-27', '15:00:00', 'Knee pain evaluation', 'Scheduled', 'MRI report available'),
+    (8, 9, 4, '2024-11-27', '16:00:00', 'Respiratory issues', 'Scheduled', 'Check for asthma symptoms'),
+    (9, 10, 5, '2024-11-28', '08:30:00', 'Abdominal pain', 'Scheduled', 'Ultrasound suggested'),
+    (10, 11, 5, '2024-11-28', '10:00:00', 'Gallstones evaluation', 'Scheduled', 'Discuss surgery options'),
+    (11, 3, 3, '2024-11-29', '09:30:00', 'Asthma follow-up', 'Scheduled', 'Review medication effectiveness'),
+    (12, 1, 1, '2024-11-29', '11:00:00', 'Hypertension management', 'Scheduled', 'Monitor blood pressure'),
+    (13, 4, 4, '2024-11-30', '13:30:00', 'Seasonal allergies', 'Scheduled', 'Discuss new treatment options'),
+    (14, 6, 1, '2024-11-30', '15:00:00', 'Heart condition follow-up', 'Scheduled', 'Bring recent ECG reports'),
+    (15, 7, 2, '2024-12-01', '14:00:00', 'Thyroid check', 'Scheduled', 'Check updated thyroid profile'),
+    (16, 8, 3, '2024-12-01', '17:00:00', 'Fracture review', 'Scheduled', 'Discuss recovery progress'),
+    (17, 9, 4, '2024-12-02', '10:00:00', 'Sinus issues', 'Scheduled', 'Bring latest X-ray reports'),
+    (18, 10, 5, '2024-12-02', '13:00:00', 'Liver health consultation', 'Scheduled', 'Review liver function tests'),
+    (19, 11, 5, '2024-12-03', '09:00:00', 'Gallbladder issues', 'Scheduled', 'Check if symptoms persist'),
+    (20, 12, 5, '2024-12-03', '12:30:00', 'Follow-up on liver disease', 'Scheduled', 'Bring updated medical reports'),
+    (21, 2, 3, '2024-12-04', '14:00:00', 'Joint pain consultation', 'Scheduled', 'Patient complains of swelling in knees'),
+    (22, 1, 1, '2024-12-05', '16:00:00', 'Regular checkup', 'Scheduled', 'No previous medical issues reported'),
+    (23, 4, 4, '2024-12-06', '08:30:00', 'Asthma control', 'Scheduled', 'Check for proper inhaler usage'),
+    (24, 3, 2, '2024-12-06', '10:00:00', 'Diabetes checkup', 'Scheduled', 'Review recent blood sugar levels'),
+    (25, 6, 1, '2024-12-07', '14:30:00', 'Cholesterol screening', 'Scheduled', 'Report from last test needed'),
+    (26, 8, 3, '2024-12-07', '17:00:00', 'Fracture review', 'Scheduled', 'Discuss pain management options'),
+    (27, 9, 4, '2024-12-08', '10:30:00', 'Cold and flu symptoms', 'Scheduled', 'Discuss effective treatment options'),
+    (28, 10, 5, '2024-12-09', '09:00:00', 'Routine checkup', 'Scheduled', 'No major issues, annual checkup'),
+    (29, 11, 5, '2024-12-09', '14:00:00', 'Post-surgery checkup', 'Scheduled', 'Follow-up after recent surgery'),
+    (30, 12, 1, '2024-12-10', '10:00:00', 'Diabetes control', 'Scheduled', 'Monitor sugar levels post-medication');
+    
+CREATE TABLE Department (
+    DepartmentID INT PRIMARY KEY AUTO_INCREMENT,   -- Unique ID for each department
+    DepartmentName VARCHAR(255) NOT NULL,          -- Name of the department
+    DepartmentHead VARCHAR(255),                   -- Head of the department (optional)
+    ContactNumber VARCHAR(15),                     -- Contact number for the department (optional)
+    Location VARCHAR(255),                         -- Location of the department in the hospital (optional)
+    Description TEXT                               -- Additional details about the department (optional)
+);
+-- Insert sample data into the Department table
+INSERT INTO Department (DepartmentName, DepartmentHead, ContactNumber, Location, Description)
+VALUES
+    ('Cardiology', 'Dr. John Smith', '123-456-7890', 'Block A, Floor 2', 'Department specializing in heart-related diseases and treatments'),
+    ('Neurology', 'Dr. Sarah Lee', '123-456-7891', 'Block B, Floor 3', 'Department focused on the brain, spine, and nervous system disorders'),
+    ('Orthopedics', 'Dr. Michael Brown', '123-456-7892', 'Block C, Floor 1', 'Department for bone, joint, and muscle conditions'),
+    ('Pediatrics', 'Dr. Lisa White', '123-456-7893', 'Block D, Floor 4', 'Department dedicated to children’s health and treatments'),
+    ('General Medicine', 'Dr. Robert Green', '123-456-7894', 'Block A, Floor 1', 'Department handling general medical conditions and treatment');
+    
+    select*from Department;
+    
+CREATE TABLE Billing (
+    BillingID INT PRIMARY KEY AUTO_INCREMENT,          -- Unique ID for each billing record
+    PatientID INT NOT NULL,                            -- ID of the patient (foreign key)
+    AppointmentID INT NOT NULL,                        -- ID of the appointment (foreign key)
+    TotalAmount DECIMAL(10, 2) NOT NULL,               -- Total bill amount
+    AmountPaid DECIMAL(10, 2) NOT NULL,                -- Amount paid by the patient
+    PaymentMethod VARCHAR(50) NOT NULL,                -- Payment method (e.g., Cash, Credit Card)
+    PaymentStatus ENUM('Paid', 'Pending', 'Partially Paid') NOT NULL, -- Payment status
+    BillingDate DATE NOT NULL,                         -- Date of the bill generation
+    AdditionalNotes TEXT,                              -- Additional notes or comments (optional)
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID), -- Link to the Patient table
+    FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID) -- Link to the Appointment table
+);
+
+INSERT INTO Billing (PatientID, AppointmentID, TotalAmount, AmountPaid, PaymentMethod, PaymentStatus, BillingDate, AdditionalNotes)
+VALUES
+    -- Fully Paid Bills
+    (1, 1, 1500.00, 1500.00, 'Cash', 'Paid', '2024-11-20', 'Full payment received.'),
+    (2, 2, 2000.00, 2000.00, 'Credit Card', 'Paid', '2024-11-21', 'No issues reported.'),
+    (3, 3, 3000.00, 3000.00, 'Online', 'Paid', '2024-11-22', 'Includes charges for diagnostic tests.'),
+
+    -- Partially Paid Bills
+    (4, 4, 2500.00, 1000.00, 'Online', 'Partially Paid', '2024-11-23', 'Patient requested payment extension.'),
+    (5, 5, 3200.00, 1500.00, 'Cash', 'Partially Paid', '2024-11-24', 'Remaining balance pending approval.'),
+    (6, 6, 2200.00, 1000.00, 'Credit Card', 'Partially Paid', '2024-11-25', 'Balance to be cleared within a week.'),
+
+    -- Pending Bills
+    (7, 7, 1800.00, 0.00, 'Cash', 'Pending', '2024-11-26', 'Payment overdue. Contact patient for follow-up.'),
+    (8, 8, 2400.00, 0.00, 'Online', 'Pending', '2024-11-27', 'Appointment completed. No payment made yet.'),
+    (9, 9, 2700.00, 0.00, 'Credit Card', 'Pending', '2024-11-28', 'Urgent payment required.'),
+    
+    -- Fully Paid Bill with Additional Note
+    (10, 10, 1900.00, 1900.00, 'Cash', 'Paid', '2024-11-29', 'Special discount applied for early payment.');
+    
+    Select * from Billing;
+
+CREATE TABLE Medications (
+    MedicationID INT PRIMARY KEY AUTO_INCREMENT,  -- Unique ID for each medication
+    PatientID INT NOT NULL,                       -- Patient ID (foreign key)
+    DoctorID INT NOT NULL,                        -- Doctor who prescribed the medication (foreign key)
+    AppointmentID INT NOT NULL,                   -- Appointment ID for reference (foreign key)
+    MedicationName VARCHAR(255) NOT NULL,         -- Name of the medication
+    Dosage VARCHAR(100) NOT NULL,                 -- Dosage information (e.g., 500mg, 1 tablet)
+    Frequency VARCHAR(50) NOT NULL,               -- Frequency of intake (e.g., Twice a day)
+    StartDate DATE NOT NULL,                      -- Start date of medication
+    EndDate DATE,                                 -- End date of medication (nullable)
+    Instructions TEXT,                            -- Additional instructions for the patient (optional)
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID),
+    FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID)
+);
+INSERT INTO Medications (PatientID, DoctorID, AppointmentID, MedicationName, Dosage, Frequency, StartDate, EndDate, Instructions)
+VALUES
+    (1, 1, 1, 'Paracetamol', '500mg', 'Twice a day', '2024-11-01', '2024-11-07', 'Take after meals.'),
+    (2, 2, 2, 'Ibuprofen', '400mg', 'Once a day', '2024-11-02', NULL, 'Avoid taking on an empty stomach.'),
+    (3, 3, 3, 'Amoxicillin', '250mg', 'Thrice a day', '2024-11-03', '2024-11-10', 'Complete the course.'),
+    (4, 4, 4, 'Metformin', '850mg', 'Twice a day', '2024-11-04', NULL, 'Take with water.'),
+    (5, 5, 5, 'Aspirin', '75mg', 'Once a day', '2024-11-05', '2024-11-15', 'Do not skip doses.');
+
+select * from Medications;
+    
+CREATE TABLE Treatment (
+    TreatmentID INT PRIMARY KEY AUTO_INCREMENT,  -- Unique ID for each treatment
+    PatientID INT NOT NULL,                      -- Patient ID (foreign key)
+    DoctorID INT NOT NULL,                       -- Doctor in charge of treatment (foreign key)
+    AppointmentID INT NOT NULL,                  -- Appointment ID for reference (foreign key)
+    TreatmentType VARCHAR(255) NOT NULL,         -- Type of treatment (e.g., Surgery, Physiotherapy)
+    TreatmentDate DATE NOT NULL,                 -- Date the treatment was performed
+    Duration VARCHAR(50),                        -- Duration of treatment (e.g., 1 hour, 3 days)
+    Cost DECIMAL(10, 2) NOT NULL,                -- Cost of the treatment
+    Notes TEXT,                                  -- Additional notes or observations (optional)
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID),
+    FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID)
+);
+
+INSERT INTO Treatment (PatientID, DoctorID, AppointmentID, TreatmentType, TreatmentDate, Duration, Cost, Notes)
+VALUES
+    (1, 1, 1, 'Surgery', '2024-11-01', '3 hours', 15000.00, 'Appendix removal.'),
+    (2, 2, 2, 'Physiotherapy', '2024-11-02', '1 hour', 2000.00, 'Post-surgery rehabilitation.'),
+    (3, 3, 3, 'Dental Cleaning', '2024-11-03', '30 minutes', 1000.00, 'Routine dental procedure.'),
+    (4, 4, 4, 'MRI Scan', '2024-11-04', '1 hour', 5000.00, 'For brain examination.'),
+    (5, 5, 5, 'Counseling Session', '2024-11-05', '1 hour', 1500.00, 'Mental health support.');
+    
+    select * from Treatment;
+
+
+
+
+
+
+SELECT 
+    Patient.Name,
+    Patient.Age,
+    Patient.Gender,
+    Patient.Contact,
+    Patient.Address,
+    Medications.MedicationName,
+    Medications.Dosage,
+    Medications.Frequency,
+    Medications.StartDate,
+    Medications.EndDate,
+    Billing.TotalAmount
+FROM Patient
+JOIN Medications ON Patient.PatientID = Medications.PatientID
+JOIN Billing ON Patient.PatientID = Billing.PatientID
+WHERE Medications.MedicationName = 'Paracetamol';
+
+-- 1) Retrieve all patients' information.
+SELECT * FROM Patient;
+
+-- 2) List all doctors along with their specialization.
+SELECT Name, Specialization FROM Doctor;
+
+-- 3) Find all appointments on a specific date (e.g., 2024-11-27).
+SELECT * FROM Appointment WHERE AppointmentDate = '2024-11-27';
+
+-- 4) Get all patients who live in a specific city (e.g., 12 Oak St).
+SELECT Name, Age, Address FROM Patient WHERE Address LIKE '%12 Oak St%';
+
+-- 5)List all medications prescribed to a specific patient.
+SELECT MedicationName, Dosage, Frequency FROM Medications
+WHERE PatientID = (SELECT PatientID FROM Patient WHERE Name = 'Alice Walker');
+
+-- 6) Count the number of doctors in each department.
+SELECT DepartmentName, COUNT(*) AS DoctorCount
+FROM Doctor
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+GROUP BY DepartmentName;
+
+-- 7) Find the total number of appointments for each doctor.
+SELECT 
+    Doctor.DoctorID, 
+    Doctor.Name, 
+    COUNT(Appointment.AppointmentID) AS TotalAppointments
+FROM Appointment
+JOIN Doctor ON Appointment.DoctorID = Doctor.DoctorID
+GROUP BY Doctor.DoctorID, Doctor.Name;
+
+-- 8)Find all patients who were prescribed a medication starting on a specific date.
+SELECT Name, MedicationName, StartDate FROM Patient
+JOIN Medications ON Patient.PatientID = Medications.PatientID
+WHERE StartDate='2024-11-01';
+
+-- 9) Retrieve billing details for patients who paid more than a specific amount (e.g., 1000).
+SELECT * FROM Billing WHERE TotalAmount>1000;
+
+-- 10)Find all doctors in a specific department (e.g., Cardiology).
+SELECT Name FROM Doctor
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+WHERE DepartmentName='Cardiology';
+
+-- 11) Find the patient who has spent the most on medications.(X)
+SELECT Name, SUM(Treatment.Cost) AS TotalMedicationCost
+FROM Patient
+JOIN Medications ON Patient.PatientID = Medications.PatientID
+GROUP BY Name
+ORDER BY TotalMedicationCost DESC
+LIMIT 1;
+
+-- 12) Get a detailed list of all appointments, including doctor and patient names.
+SELECT Appointment.AppointmentDate, Doctor.Name, Patient.Name
+FROM Appointment
+JOIN Doctor ON Appointment.DoctorID = Doctor.DoctorID
+JOIN Patient ON Appointment.PatientID = Patient.PatientID;
+
+-- 13) Find the average billing amount by department.(X)
+SELECT DepartmentName, AVG(Billing.TotalAmount) AS AvgBilling
+FROM Billing
+JOIN Doctor ON Billing.DoctorID=Doctor.DoctorID
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+GROUP BY DepartmentName;
+
+-- 14) Identify patients with more than one appointment on the same day.
+SELECT PatientID, AppointmentDate, COUNT(*) AS AppointmentCount
+FROM Appointment
+GROUP BY PatientID, AppointmentDate
+HAVING AppointmentCount > 1;
+
+-- 15) Find the most frequently prescribed medication.
+SELECT MedicationName, COUNT(*) AS PrescriptionCount
+FROM Medications
+GROUP BY MedicationName
+ORDER BY PrescriptionCount DESC
+LIMIT 1;
+
+-- 16) Retrieve the top 3 departments with the highest number of appointments.
+SELECT DepartmentName, COUNT(Appointment.AppointmentID) AS TotalAppointments
+FROM Appointment
+JOIN Doctor ON Appointment.DoctorID = Doctor.DoctorID
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+GROUP BY DepartmentName
+ORDER BY TotalAppointments DESC
+LIMIT 3;
+
+-- 17) Find the total revenue generated by each doctor.(X)
+SELECT Name, SUM(Billing.TotalAmount) AS TotalRevenue
+FROM Billing
+JOIN Doctor ON Billing.DoctorID = Doctor.DoctorID
+GROUP BY Name;
+
+-- 18)List all patients who were prescribed more than two medications.
+SELECT Patient.Name, COUNT(Medications.MedicationID) AS MedicationCount
+FROM Patient
+JOIN Medications ON Patient.PatientID = Medications.PatientID
+GROUP BY Patient.Name
+HAVING MedicationCount > 2;
+
+-- 19) Find the youngest and oldest patient.
+SELECT MIN(Age) AS YoungestAge, MAX(Age) AS OldestAge FROM Patient;
+
+-- 20) List all patients along with their total billing amount.
+SELECT Patient.Name, SUM(Billing.TotalAmount) AS TotalBilling
+FROM Patient
+JOIN Billing ON Patient.PatientID = Billing.PatientID
+GROUP BY Patient.Name;
+
+-- 21) Find patients who visited multiple departments for appointments.
+SELECT Patient.Name, COUNT(DISTINCT Department.DepartmentName) AS TotalDepartments
+FROM Appointment
+JOIN Patient ON Appointment.PatientID = Patient.PatientID
+JOIN Doctor ON Appointment.DoctorID = Doctor.DoctorID
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+GROUP BY Patient.Name
+HAVING TotalDepartments > 1;
+
+-- 22)Calculate the total Treatment cost for each department.
+SELECT DepartmentName, SUM(Treatment.Cost) AS TotalMedicationCost
+FROM Treatment
+JOIN Doctor ON Treatment.DoctorID = Doctor.DoctorID
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+GROUP BY DepartmentName;
+
+-- 23) List all doctors who have no appointments.
+SELECT Name FROM Doctor
+WHERE DoctorID NOT IN (SELECT DISTINCT DoctorID FROM Appointment);
+
+-- 24) Find the doctor who generated the highest billing revenue.(X)
+SELECT Name, SUM(Billing.TotalAmount) AS TotalRevenue
+FROM Doctor
+JOIN Billing ON Doctor.DoctorID = Billing.DoctorID
+GROUP BY DoctorName
+ORDER BY TotalRevenue DESC
+LIMIT 1;
+
+-- 25) Get a summary of appointments per month.
+SELECT MONTH(AppointmentDate) AS Month, COUNT(*) AS TotalAppointments
+FROM Appointment
+GROUP BY MONTH(AppointmentDate);
+
+-- 26) Identify the most common symptom based on prescribed medications.
+SELECT MedicationName, COUNT(*) AS Frequency
+FROM Medications
+GROUP BY MedicationName
+ORDER BY Frequency DESC
+LIMIT 1;
+
+-- 27) Retrieve patient details and their last appointment date.
+SELECT Patient.Name, MAX(Appointment.AppointmentDate) AS LastAppointmentDate
+FROM Patient
+JOIN Appointment ON Patient.PatientID = Appointment.PatientID
+GROUP BY Patient.Name;
+
+-- 28) Find patients who have visited a doctor from the Cardiology department.
+SELECT DISTINCT Patient.Name
+FROM Appointment
+JOIN Doctor ON Appointment.DoctorID = Doctor.DoctorID
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+JOIN Patient ON Appointment.PatientID = Patient.PatientID
+WHERE Department.DepartmentName = 'Cardiology';
+
+-- 29) Calculate the average patient age for each department.
+SELECT DepartmentName, AVG(Patient.Age) AS AvgPatientAge
+FROM Patient
+JOIN Appointment ON Patient.PatientID = Appointment.PatientID
+JOIN Doctor ON Appointment.DoctorID = Doctor.DoctorID
+JOIN Department ON Doctor.DepartmentID = Department.DepartmentID
+GROUP BY DepartmentName;
+
+-- 30) List all patients who had appointments with more than one doctor.
+SELECT Patient.Name, COUNT(DISTINCT Appointment.DoctorID) AS DoctorCount
+FROM Patient
+JOIN Appointment ON Patient.PatientID = Appointment.PatientID
+GROUP BY Patient.Name
+HAVING DoctorCount > 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
